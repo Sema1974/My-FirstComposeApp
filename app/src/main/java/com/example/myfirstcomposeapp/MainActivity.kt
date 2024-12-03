@@ -31,7 +31,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.widget.Barrier
 import com.example.myfirstcomposeapp.ui.theme.MyFirstComposeAppTheme
 
 
@@ -75,7 +77,9 @@ fun MyPreview() {
         //MyBox()
         //MyColumn()
         //MyRow()
-        GuieLineExample()
+        //GuieLineExample()
+        //BarrierExample()
+        ChainExample()
     }
 }
 @Composable
@@ -161,17 +165,21 @@ fun MyComplexLayout() {
 }
 
 @Composable
-fun ConstraintExample() {
+fun GuieLineExample() {
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val (boxRed, boxBlue, boxYellow, boxMagenta) = createRefs()
+        val glTop = createGuidelineFromTop(0.15f)
+        val glBottom = createGuidelineFromBottom(300.dp)
+        val glStart = createGuidelineFromStart(0.25f)
+        val glEnd = createGuidelineFromEnd(0.15f)
         Box(modifier = Modifier
             .size(125.dp)
             .background(Color.Red)
             .constrainAs(ref = boxRed) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                bottom.linkTo(parent.bottom)
+                top.linkTo(glTop)
+                start.linkTo(glStart)
+                end.linkTo(glEnd)
+                bottom.linkTo(glBottom)
             }
         )
         Box(modifier = Modifier
@@ -179,7 +187,7 @@ fun ConstraintExample() {
             .background(Color.Blue)
             .constrainAs(boxBlue) {
                 bottom.linkTo(boxRed.top)
-                start.linkTo(parent.start)
+                start.linkTo(glEnd)
                 end.linkTo(parent.end)
             })
         Box(modifier = Modifier
@@ -200,9 +208,9 @@ fun ConstraintExample() {
             })
     }
 }
-@Preview(showBackground = true)
+
 @Composable
-fun GuieLineExample(){
+fun ConstraintExample(){
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val (boxRed, boxBlue, boxYellow, boxMagenta) = createRefs()
         Box(modifier = Modifier
@@ -239,6 +247,95 @@ fun GuieLineExample(){
                 top.linkTo(boxBlue.top)
                 bottom.linkTo(boxRed.bottom)
             })
+    }
+}
+//@Preview(showBackground = true)
+/*@Composable
+fun BarrierExample() {
+    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+       val (boxRed, boxBlue, boxYellow, boxMagenta) = createRefs()
+        //val bTop = createTopBarrier(0.15f)
+        val bBottom = createBottomBarrier(boxRed, boxBlue)
+        //val bStart= createStartBarrier(0.25f)
+        val bEnd = createEndBarrier(boxRed, boxBlue)
+        Box(modifier = Modifier
+            .size(125.dp)
+            .background(Color.Red)
+            .constrainAs(ref = boxRed) {
+                top.linkTo(glTop)
+                start.linkTo(glStart)
+                end.linkTo(glEnd)
+                bottom.linkTo(glBottom)
+            }
+        )
+        Box(modifier = Modifier
+            .size(125.dp)
+            .background(Color.Blue)
+            .constrainAs(boxBlue) {
+                bottom.linkTo(boxRed.top)
+                start.linkTo(glEnd)
+                end.linkTo(parent.end)
+            })
+        Box(modifier = Modifier
+            .size(100.dp)
+            .background(Color.Yellow)
+            .constrainAs(boxYellow) {
+                end.linkTo(boxBlue.start)
+                top.linkTo(boxBlue.top)
+                bottom.linkTo(boxBlue.bottom)
+            })
+        Box(modifier = Modifier
+            .size(125.dp)
+            .background(Color.Magenta)
+            .constrainAs(boxMagenta) {
+                start.linkTo(boxRed.end)
+                top.linkTo(boxBlue.top)
+                bottom.linkTo(boxRed.bottom)
+            })
+    }
+}*/
+@Preview
+@Composable
+fun ChainExample(){
+    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+        val (boxRed, boxBlue, boxYellow, boxMagenta) = createRefs()
+        val size = 70.dp
+        Box(modifier = Modifier
+            .size(size)
+            .background(Color.Red)
+            .constrainAs(ref = boxRed){
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                bottom.linkTo(parent.bottom)
+            }
+        )
+        Box(modifier = Modifier
+            .size(size)
+            .background(Color.Blue)
+            .constrainAs(boxBlue){
+                bottom.linkTo(boxRed.top)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            })
+        Box(modifier = Modifier
+            .size(size)
+            .background(Color.Yellow)
+            .constrainAs(boxYellow){
+                end.linkTo(boxBlue.start)
+                top.linkTo(boxBlue.top)
+                bottom.linkTo(boxBlue.bottom)
+            })
+        Box(modifier = Modifier
+            .size(size)
+            .background(Color.Magenta)
+            .constrainAs(boxMagenta){
+                start.linkTo(boxYellow.end)
+                top.linkTo(boxBlue.top)
+                bottom.linkTo(boxRed.bottom)
+            })
+        createHorizontalChain(boxBlue, boxBlue, boxYellow, boxMagenta,
+        chainStyle = ChainStyle.Spread)
     }
 }
 
