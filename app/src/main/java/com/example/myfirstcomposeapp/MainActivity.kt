@@ -306,7 +306,7 @@ fun ChainExample(){
             .constrainAs(ref = boxRed){
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
-                end.linkTo(parent.end)
+                end.linkTo(boxBlue.start)
                 bottom.linkTo(parent.bottom)
             }
         )
