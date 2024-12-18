@@ -20,13 +20,25 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,11 +54,39 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MyFirstComposeAppTheme {
+            SuperHeroView()
+           /* MyFirstComposeAppTheme {
                 MyBox()
                 MyComplexLayout()
             }
-        }
+            var sliderPosition by rememberSaveable {
+                mutableStateOf(0f)
+            }
+            var openAlert by rememberSaveable {
+                mutableStateOf(false)
+            }
+            Column(horizontalAlignment =
+            Alignment.CenterHorizontally) {
+                Slider(
+                    value = sliderPosition,
+                    onValueChange = { sliderPosition = it
+                        if (sliderPosition > 90f) openAlert = true},
+                    valueRange = 0f..100f,
+                    steps = 9
+                )
+                Text(text = "%.0f".format(sliderPosition))
+            }
+            if(openAlert) {
+                MyAlertDialog(
+                    title = "Sonido muy alto",
+                    text = "El sonido esta muy alto Seguro que quieres??",
+                    onConfirm = { openAlert = false},
+                    onDismiss = { sliderPosition = 80f
+                        openAlert = false }
+                )*/
+
+            }
+
     }
 }
 
@@ -338,5 +378,8 @@ fun ChainExample(){
         chainStyle = ChainStyle.Spread)
     }
 }
+
+}
+
 
 
